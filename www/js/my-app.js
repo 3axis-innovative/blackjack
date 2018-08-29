@@ -24,12 +24,29 @@ myApp.onPageInit('about', function (page) {
     // Do something here for "about" page
 
 })
-
+$$(document).on('click', 'clubsClick', function (e) {
+  console.log('link clicked');
+});
 // Option 2. Using one 'pageInit' event handler for all pages:
 $$(document).on('pageInit', function (e) {
     // Get page data from event data
     var page = e.detail.page;
 
+    //Suit input event handling
+
+
+    $$('#clubsClick').on('tab-active', function () {
+        console.log("clubs");
+    });
+    $$('#spadesClick').on('tab-active', function () {
+        console.log("spades");
+    });
+    $$('#heartsClick').on('tab-active', function () {
+        myApp.alert("hearts");
+    });
+    $$('#diamondsClick').on('tab-active', function () {
+        myApp.alert("diamonds");
+    });
     if (page.name === 'about') {
         // Following code will be executed for page with data-page attribute equal to "about"
         myApp.alert('Here comes About page');

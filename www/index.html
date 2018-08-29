@@ -9,23 +9,24 @@
             * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+            -->
+            <meta http-equiv="Content-Security-Policy" content="default-src *;
+            img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+            style-src  'self' 'unsafe-inline' *">
+            <!-- Required meta tags-->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-status-bar-style" content="black">
+            <meta name="format-detection" content="telephone=no">
+            <meta name="msapplication-tap-highlight" content="no">
 
-    <!-- Required meta tags-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-
-    <!-- Your app title -->
-    <title>My App</title>
+            <!-- Your app title -->
+            <title>Blackjack</title>
 
     <!-- This template defaults to the iOS CSS theme. To support both iOS and material design themes, see the Framework7 Tutorial at the link below:
         http://www.idangero.us/framework7/tutorials/maintain-both-ios-and-material-themes-in-single-app.html
-     -->
+    -->
 
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">
     <link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">
@@ -50,48 +51,128 @@
     <div class="views">
         <!-- Your main view, should have "view-main" class -->
         <div class="view view-main">
-            <!-- Top Navbar-->
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
-                    <div class="center sliding">Awesome App</div>
-                    <div class="right">
-                        <!--
-                          Right link contains only icon - additional "icon-only" class
-                          Additional "open-panel" class tells app to open panel when we click on this link
-                        -->
-                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- Pages container, because we use fixed-through navbar and toolbar, it has additional appropriate classes-->
-            <div class="pages navbar-through toolbar-through">
-                <!-- Page, "data-page" contains page name -->
-                <div data-page="index" class="page">
-                    <!-- Scrollable page content -->
-                    <div class="page-content">
-                        <div class="content-block">
-                            <p>Page content goes here</p>
-                            <!-- Link to another page -->
-                            <a href="about.html">About app</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Bottom Toolbar-->
-            <div class="toolbar">
-                <div class="toolbar-inner">
-                    <!-- Toolbar links -->
-                    <a href="#" class="link">Link 1</a>
-                    <a href="#" class="link">Link 2</a>
-                </div>
-            </div>
-        </div>
+            <!-- Page, "data-page" contains page name -->
+            <div data-page="index" class="page">
+                <!-- Scrollable page content -->
+                <div class="page-content">
+                    <!-- Card -->
+                    <style>
+                    /*
+    Card frame styling
+    */
+    .card-header .card-header {
+      height: 40vw;
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+  }
+  .card-header .card-content-padding .date{
+      color: #8e8e93;
+  }
+</style>
+
+
+<div class="card">
+    <div class="card-header">
+        <h5>
+            What was the last card played?
+        </h5>
+
     </div>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
-    <script type="text/javascript" src="js/my-app.js"></script>
+    <div class="card-content card-content-padding">
+        <img src="http://www.internalvoices.org/transfile/big/91/910951_card-wallpaper-hd.jpg" height="65%" width="45%" align="center" />
+    </div>
+    <!-- Suit selection -->
+    <div class="card-footer" height="25%">
+    <!-- Additional "tabbar-labels" class -->
+          <div class="toolbar no-shadow tabbar-labels">
+            <div class="toolbar-inner">
+                <style>
+                tab-link.tab-link-active{
+                    text-shadow: 2px 2px 5px red;
+                }
+                </style>
+              <a href="#clubs" id="clubsClick" class="tab-link tab-link-active">
+                <!-- Different icons for iOS and MD themes -->
+                
+                
+                <!-- Label text -->
+                <style>
+                #tabsymbol{
+                font-size: 70px;
+                 content: '\25BC';
+                line-height: 50px;
+           }
+                </style>
+                <div id="tabsymbol">
+                    &clubs;
+                </div>
+                
+                
+              </a>
+              <a href="#spades" id="spadesClick" class="tab-link">
+                
+                
+                <div id="tabsymbol">&spades;</div>
+              </a>
+              <a href="#hearts" id="heartsClick" class="tab-link">
+                
+                
+                <div id="tabsymbol">&hearts;</div>
+              </a>
+              <a href="#diamonds" id="diamondsClick" class="tab-link">
+                
+                
+                <div id="tabsymbol">&diams;</div>
+              </a>
+            </div>
+          </div>
+        
+        <div class="tabs">
+        <!-- First tab, active -->
+        <div class="page-content tab tab-active" id="clubs">
+        ss
+        </div>
+        <!-- Second tab -->
+        <div class="page-content tab" id="spades">
+        dd
+        </div>
+        <!-- Third tab -->
+        <div class="page-content tab" id="hearts">
+        ff
+        </div>
+        <div class="page-content tab" id="diamonds">
+        hh
+        </div>
+      </div>
+
+
+    </div>
+</div>
+
+<div class="content-block">
+    <p>Page content goes here</p>
+    <!-- Link to another page -->
+    <a href="about.html">About app</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Toolbar-->
+<div class="toolbar">
+    <div class="toolbar-inner">
+        <!-- Toolbar links -->
+        <a href="#" class="link">Link 1</a>
+        <a href="#" class="link">Link 2</a>
+    </div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
 </body>
 
 </html>
