@@ -1,0 +1,180 @@
+<!--<script src="states.js"></script>-->
+<html>
+<body onload="clearLocalStorage()">
+<script>
+function clearLocalStorage(){
+	localStorage.clear();
+}
+
+</script>
+
+<h1>Add card</h1>
+<form>
+	<input type="radio" name="suit" value="clubs" checked> Clubs <br>
+	<input type="radio" name="suit" value="spades" > Spades <br>
+	<input type="radio" name="suit" value="hearts" > Hearts <br>
+	<input type="radio" name="suit" value="diamonds" > Diamonds <br>
+</form>
+<form>
+	<input type="radio" name="rank" value="ace" checked> Ace <br>
+	<input type="radio" name="rank" value="2" > 2 <br>
+	<input type="radio" name="rank" value="3" > 3 <br>
+	<input type="radio" name="rank" value="4" > 4 <br>
+	<input type="radio" name="rank" value="5" > 5 <br>
+	<input type="radio" name="rank" value="6" > 6 <br>
+	<input type="radio" name="rank" value="7" > 7 <br>
+	<input type="radio" name="rank" value="8" > 8 <br>
+	<input type="radio" name="rank" value="9" > 9 <br>
+	<input type="radio" name="rank" value="10" > 10 or faces <br>
+</form>
+<form>
+	Dealers card?<br><br>
+	<input type="radio" name="owner" value="dealers" checked> Yes <br>
+	<input type="radio" name="owner" value="users" > No <br>
+</form>
+<form>
+<button type="button" onclick ="addCard()">Add Card</button>
+<div id="dealerCardText"></div> <br>
+<p>
+<div id="card1Text"></div> <div id="card2Text"></div> <br>
+</p>
+<div id="moveText"></div>
+
+<script>
+	function addCard(){
+		//Get selected values
+		var cardSuit = document.querySelector('input[name="suit"]:checked').value;
+		var cardRank = document.querySelector('input[name="rank"]:checked').value;
+		var cardOwner = document.querySelector('input[name="owner"]:checked').value;
+		//Create card object
+		var card = {suit:cardSuit, rank:cardRank, owner:cardOwner};
+		
+
+		//Save object locally
+		if(card.owner != "users"){
+			//Store JSON string value of object (required for storage) & display card
+			localStorage.setItem('faceup', JSON.stringify(card));
+			document.getElementById("dealerCardText").innerHTML = "Dealer has: "+ cardRank + " of "+ cardSuit;
+
+		}
+		else{
+			//Check if first card exists, if it does, add a second card
+			if(localStorage.getItem('card1') === null){
+				localStorage.setItem('card1', JSON.stringify(card));
+				document.getElementById("card1Text").innerHTML = "You have: "+ cardRank + " of "+ cardSuit;
+			}
+			else if(localStorage.getItem('card2') === null){
+				localStorage.setItem('card2', JSON.stringify(card));
+				document.getElementById("card2Text").innerHTML = " and a: "+ cardRank + " of "+ cardSuit;
+				makeMove();
+			}
+			//if there are already two cards
+			else if(localStorage.getItem('card1') != null && localStorage.getItem('card2') != null){
+				
+				alert("error! cards full!")
+			}
+		}
+	}
+//Calculate users card sum
+	function calculateSum(){
+		//Get user's cards
+		var userCard1 = JSON.parse(localStorage.getItem('card1'));
+		var userCard2 = JSON.parse(localStorage.getItem('card2'));
+		var userSum;
+
+		//Determine if ace is in hand, if not, just add the ranks
+		
+		if(userCard1.rank == "ace"){
+			var softPoints = true;
+			userCard1.rank = 11;
+		}
+		if(userCard2.rank == "ace"){
+			var softPoints = true;
+			userCard2.rank = 11;
+		}
+
+		//To int
+		var rank1 = parseInt(userCard1.rank,10);
+		var rank2 = parseInt(userCard2.rank,10);
+		//Inital sum
+		userSum = rank1 + rank2;
+
+		//Return the user's sum, if they should use softPoints or not & their ranks
+		var sumArray = [userSum, rank1, rank2, softPoints];
+		return sumArray;
+
+	}
+
+	function makeMove(){
+		//Get the above user's sum & their ranks
+		var sumArray = calculateSum();
+		var userSum = sumArray[0];
+		var rank1 = sumArray[1];
+		var rank2 = sumArray[2];
+		var softpoints = sumArray[3];
+		var moveDecision;
+		var cardFaceUp = JSON.parse(localStorage.getItem('faceup'));
+		//Ace is represented as 11 in this
+		if(cardFaceUp.rank != "ace"){
+			var faceValue = parseInt(cardFaceUp.rank,10);
+		}
+		else{
+			var faceValue = 11;
+		}
+		//STEPS/RULES FROM THE MATH SPREADSHEET STRART HERE-------------------------------------
+		//Step 1: Pairs
+		if(rank1==rank2){
+			//If it's a pair of two's or three's
+			if(rank1 == 2 || rank1 == 3){
+				if(1 < faceValue <8){ 
+					moveDecision = "split";
+				}
+				else if(faceValue>7){
+					moveDecision = "hold";
+				}
+			}
+			//If it's a pair of fours
+			if(rank1 == 4){
+				if(faceValue == 5 || faceValue == 6){
+					moveDecision = "split";
+				}
+				else{
+					moveDecision = "hold";
+				}
+			}
+			//if pair of 5s --------------------------------------------------------------------LAST HERE-
+
+			//if pair of is 6s
+			//if pair of is 7
+			//if pair of is 8..............................................
+			//if pair of is 9
+		}
+		
+		//Step 2: If it's an Ace &
+		//Step 3: Sum
+		//if(userSum >= 17){
+			//moveDecision = "stand";
+		//}
+		//else if(userSum >= 17){
+
+		//}
+		document.getElementById("moveText").innerHTML ="You should "+ moveDecision + " bro.";
+		return moveDecision;
+	}
+	//Determine softpoint bust
+		//if(softPoints == true && userSum > 21){
+		//	userSum = userSum-10;
+	//	}
+	//function makeMove
+	//exceptions, aces and doubles (ex. 2&2)
+//if(ace and 8 or higher then stand)
+			//if(ace and 7 or lower, compare card to dealer)
+					//if(dealer )
+			//if(ace and ace, split)
+
+				//Get local object
+			//var dealercard = JSON.parse(localStorage.getItem('faceup'));
+			//alert(dealercard.rank);
+</script>
+</body>
+</html>
