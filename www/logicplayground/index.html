@@ -1,0 +1,46 @@
+<!--<script src="states.js"></script>-->
+<head>
+<script src="newGame.js"></script>
+<script src="add.js"></script>
+<script src="math.js"></script>
+</head>
+<html>
+
+
+<h1>Add card</h1>
+<form>
+	<input type="radio" name="suit" value="clubs" checked> Clubs <br>
+	<input type="radio" name="suit" value="spades" > Spades <br>
+	<input type="radio" name="suit" value="hearts" > Hearts <br>
+	<input type="radio" name="suit" value="diamonds" > Diamonds <br>
+</form>
+<form>
+	<input type="radio" name="rank" value="ace" checked> Ace <br>
+	<input type="radio" name="rank" value="2" > 2 <br>
+	<input type="radio" name="rank" value="3" > 3 <br>
+	<input type="radio" name="rank" value="4" > 4 <br>
+	<input type="radio" name="rank" value="5" > 5 <br>
+	<input type="radio" name="rank" value="6" > 6 <br>
+	<input type="radio" name="rank" value="7" > 7 <br>
+	<input type="radio" name="rank" value="8" > 8 <br>
+	<input type="radio" name="rank" value="9" > 9 <br>
+	<input type="radio" name="rank" value="10" > 10 <br>
+	<input type="radio" name="rank" value="jack" > Jack <br>
+	<input type="radio" name="rank" value="queen" > Queen <br>
+	<input type="radio" name="rank" value="king" > King <br>
+</form>
+<form>
+	Dealers card?<br><br>
+	<input type="radio" name="owner" value="dealers" checked> Yes <br>
+	<input type="radio" name="owner" value="users" > No <br>
+</form>
+<form>
+<button type="button" onclick ="addCard()">Add Card</button>
+<div id="dealerCardText"></div> <br>
+<p>
+<div id="card1Text"></div> <div id="card2Text"></div> <br>
+</p>
+<div id="moveText"></div>
+
+</body>
+</html>
